@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Currency Converter App</title>
+    <style>
+        *{font-size:40px; font-family:Cambria;}
+        body {background-color:lightblue;}
+        h2 {width: 70%; border:solid; border-radius:40px;}
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Currency Converter App</h1>
+        <form onsubmit="convert(event)">
+            <input type="number" step="any" id="amt" placeholder="Enter amount in $" />
+            <br/><br/>
+            <input type="submit" value="Convert in ₹" />
+        </form>
+        <h2 id="msg"></h2>
+    </center>
+    
+    <script>
+        function convert(event) {
+            event.preventDefault();
+            let amt = document.getElementById("amt"); // Fixed: Renamed to 'amt'
+            let msg = document.getElementById("msg"); // Fixed: Only one 'msg'
+
+            let url = "https://api.exchangerate-api.com/v4/latest/USD";
+            fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                let dollar = data.rates.INR; // Fixed: Lowercase 'dollar'
+                let aid = parseFloat(amt.value); // Fixed: Renamed 'amt'
+                let air = aid * dollar; // Fixed: Lowercase 'dollar'
+                let ans = "₹" + air.toFixed(2);
+                msg.innerHTML = ans;
+            })
+            .catch(err => msg.innerHTML = "Issue: " + err);
+        }
+    </script>
+</body>
+</html>
